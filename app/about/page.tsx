@@ -1,9 +1,12 @@
+import Image from "next/image";
 import type { Metadata } from "next";
+
 export const metadata: Metadata = {
   title: "About",
   description:
     "Learn about Hwang Structural Engineers, our mission, services, and leadership experience in structural engineering throughout Southern California.",
 };
+
 export default function About() {
   return (
     <main className="min-h-screen bg-[#0f0f0f] text-white px-8 py-16">
@@ -15,6 +18,7 @@ export default function About() {
         <h1 className="text-5xl font-semibold mb-8">
           Structural engineering built on collaboration, efficiency, and trust.
         </h1>
+
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 text-gray-300">
           <div className="md:col-span-2 space-y-6 leading-7">
@@ -53,9 +57,7 @@ export default function About() {
 
         <section className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
-            <h2 className="text-2xl font-semibold mb-4">
-              Principal
-            </h2>
+            <h2 className="text-2xl font-semibold mb-4">Principal</h2>
 
             <p className="text-gray-300 leading-7">
               Junho Hwang, S.E. has extensive experience in structural design
@@ -76,9 +78,18 @@ export default function About() {
               <div>
                 <h3 className="text-white font-medium mb-2">Education</h3>
                 <ul className="space-y-2">
-                  <li>M.S.C.E. Structural Engineering, University of Texas at Austin</li>
-                  <li>M.S. Architectural Engineering, Han Yang University, Seoul, Korea</li>
-                  <li>B.S. Architectural Engineering, Han Yang University, Seoul, Korea</li>
+                  <li>
+                    M.S.C.E. Structural Engineering, University of Texas at
+                    Austin
+                  </li>
+                  <li>
+                    M.S. Architectural Engineering, Han Yang University, Seoul,
+                    Korea
+                  </li>
+                  <li>
+                    B.S. Architectural Engineering, Han Yang University, Seoul,
+                    Korea
+                  </li>
                 </ul>
               </div>
 

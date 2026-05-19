@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { projects } from "../data/projects";
+import { getProjects } from "../lib/getProjects";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -9,7 +9,12 @@ export const metadata: Metadata = {
     "Hwang Structural Engineers provides practical, efficient structural engineering services for residential, commercial, industrial, and specialty projects throughout Southern California.",
 };
 
-const heroImages = ["/logo.jpg", "/logo.jpg", "/logo.jpg", "/logo.jpg"];
+const heroImages = [
+  "/hero-1.jpg",
+  "/logo.jpg",
+  "/hero-3.jpg",
+  "/logo.jpg",
+];
 
 const services = [
   "Structural Design",
@@ -19,26 +24,19 @@ const services = [
 ];
 
 const stats = [
-  {
-    value: "1000+",
-    label: "Projects Supported",
-  },
-  {
-    value: "30+",
-    label: "Years of Experience",
-  },
-  {
-    value: "2015",
-    label: "Founded in California",
-  },
-  {
-    value: "S.E.",
-    label: "Licensed Structural Engineer",
-  },
+  { value: "1000+", label: "Projects Supported" },
+  { value: "30+", label: "Years of Experience" },
+  { value: "2015", label: "Founded in California" },
+  { value: "S.E.", label: "Licensed Structural Engineer" },
 ];
 
-export default function Home() {
-  const featuredProjects = projects.slice(0, 3);
+export default async function Home() {
+  const projects = await getProjects();
+
+  const featuredProjects = projects
+    .filter((project) => project.selectedProject)
+    .sort((a, b) => a.selectedOrder - b.selectedOrder)
+    .slice(0, 4);
 
   return (
     <main className="min-h-screen bg-[#0f0f0f] text-white">
@@ -104,7 +102,10 @@ export default function Home() {
               <p className="text-3xl sm:text-4xl font-semibold text-[#d45a00] mb-2">
                 {stat.value}
               </p>
-              <p className="text-sm text-gray-400 leading-5">{stat.label}</p>
+
+              <p className="text-sm text-gray-400 leading-5">
+                {stat.label}
+              </p>
             </div>
           ))}
         </div>
@@ -139,9 +140,10 @@ export default function Home() {
             {services.map((service) => (
               <div
                 key={service}
-                className="rounded-2xl border border-white/10 bg-white/5 p-6 hover:bg-white/10 hover:-translate-y-1 transition duration-300 animate-fade-up"
+                className="rounded-2xl border border-white/10 bg-white/5 p-6 hover:bg-white/10 hover:-translate-y-1 transition duration-300"
               >
                 <h3 className="text-xl font-medium mb-3">{service}</h3>
+
                 <p className="text-sm text-gray-400 leading-6">
                   Professional structural engineering support tailored to each
                   project’s requirements.
@@ -152,52 +154,71 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-6 sm:px-8 py-20">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10">
-            <div>
-              <p className="text-sm uppercase tracking-[0.3em] text-gray-500 mb-4">
-                Featured Work
-              </p>
+      {featuredProjects.length > 0 && (
+        <section className="px-6 sm:px-8 py-20">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10">
+              <div>
+                <p className="text-sm uppercase tracking-[0.3em] text-gray-500 mb-4">
+                  Featured Work
+                </p>
 
-              <h2 className="text-4xl font-semibold">Selected Projects</h2>
+                <h2 className="text-4xl font-semibold">
+                  Selected Projects
+                </h2>
+              </div>
+
+              <Link
+                href="/projects"
+                className="text-sm text-[#d45a00] hover:text-[#f06a00] transition"
+              >
+                View full project map →
+              </Link>
             </div>
 
-            <Link
-              href="/projects"
-              className="text-sm text-[#d45a00] hover:text-[#f06a00] transition"
-            >
-              View full project map →
-            </Link>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              {featuredProjects.map((project) => (
+                <Link
+                  key={project.id}
+                  href={`/projects?project=${project.id}`}
+                  className="group rounded-2xl overflow-hidden border border-white/10 bg-white/5 hover:bg-white/10 hover:-translate-y-1 transition duration-300"
+                >
+                  <div className="relative h-56 overflow-hidden bg-black">
+                    {project.mainImage ? (
+                      <img
+                        src={project.mainImage}
+                        alt={project.name}
+                        referrerPolicy="no-referrer"
+                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="flex h-full items-center justify-center bg-gradient-to-br from-[#d45a00]/40 to-black">
+                        <p className="text-sm text-gray-300">
+                          Project image coming soon
+                        </p>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="p-6">
+                    <p className="text-sm text-[#d45a00] mb-3">
+                      {project.type}
+                    </p>
+
+                    <h3 className="text-xl font-semibold mb-3 leading-snug">
+                      {project.name}
+                    </h3>
+
+                    <p className="text-sm text-gray-400">
+                      {project.location}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {featuredProjects.map((project) => (
-              <Link
-                key={project.id}
-                href="/projects"
-                className="group rounded-2xl overflow-hidden border border-white/10 bg-white/5 hover:bg-white/10 hover:-translate-y-1 transition duration-300 animate-fade-up"
-              >
-                <div className="relative h-56 bg-gradient-to-br from-[#d45a00]/40 to-black flex items-center justify-center">
-                  <p className="text-sm text-gray-300">
-                    Project image coming soon
-                  </p>
-                </div>
-
-                <div className="p-6">
-                  <p className="text-sm text-[#d45a00] mb-3">{project.type}</p>
-
-                  <h3 className="text-2xl font-semibold mb-3">
-                    {project.name}
-                  </h3>
-
-                  <p className="text-sm text-gray-400">{project.location}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
     </main>
   );
 }

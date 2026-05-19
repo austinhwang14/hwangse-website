@@ -13,6 +13,8 @@ export type Project = {
   drawingImage: string;
   mainImage: string;
   images: string[];
+  selectedProject: boolean;
+  selectedOrder: number;
   coordinates: {
     lat: number;
     lng: number;
@@ -46,8 +48,9 @@ export async function getProjects(): Promise<Project[]> {
   const allProjects = await Promise.all(
     CSV_URLS.map(async (url) => {
       const response = await fetch(url, {
-  next: { revalidate: 300 },
-});
+        next: { revalidate: 300 },
+      });
+
       const csvText = await response.text();
 
       const parsed = Papa.parse<string[]>(csvText, {
@@ -110,6 +113,9 @@ export async function getProjects(): Promise<Project[]> {
             drawingImage,
             mainImage: images[0] || "",
             images,
+            selectedProject:
+              getValue(row, "Selected Project").toUpperCase() === "Y",
+            selectedOrder: Number(getValue(row, "Selected Order")) || 999,
             coordinates: {
               lat: Number(getValue(row, "Latitude")),
               lng: Number(getValue(row, "Longitude")),

@@ -1,13 +1,27 @@
-export const metadata = {
-  title: "Projects | Hwang Structural Engineers",
-  description:
-    "Explore structural engineering projects completed by Hwang Structural Engineers across residential, commercial, and public sectors.",
-};
+import type { Metadata } from "next";
 import ProjectsClient from "../../components/ProjectsClient";
 import { getProjects } from "../../lib/getProjects";
 
-export default async function ProjectsPage() {
-  const projects = await getProjects();
+export const metadata: Metadata = {
+  title: "Projects",
+  description:
+    "Explore structural engineering projects completed by Hwang Structural Engineers.",
+};
 
-  return <ProjectsClient projects={projects} />;
+export default async function ProjectsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ project?: string }>;
+}) {
+  const projects = await getProjects();
+  const params = await searchParams;
+
+  const initialProjectId = params.project ? Number(params.project) : undefined;
+
+  return (
+    <ProjectsClient
+      projects={projects}
+      initialProjectId={initialProjectId}
+    />
+  );
 }
