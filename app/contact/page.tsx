@@ -20,20 +20,27 @@ export default function Contact() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           <div className="space-y-6">
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+            <a
+              href="tel:2132680935"
+              className="block bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:-translate-y-1 transition-all duration-300"
+            >
               <h2 className="text-xl mb-2">Phone</h2>
               <p className="text-gray-300">213-268-0935</p>
-            </div>
+            </a>
 
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+            <a
+              href="mailto:juno@hwangse.com"
+              className="block bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:-translate-y-1 transition-all duration-300"
+            >
               <h2 className="text-xl mb-2">Email</h2>
               <p className="text-gray-300">juno@hwangse.com</p>
-            </div>
+            </a>
 
             <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
               <h2 className="text-xl mb-2">Office</h2>
               <p className="text-gray-300">
-                2450 W Main Street<br />
+                2450 W Main Street
+                <br />
                 Alhambra, CA 91801
               </p>
             </div>
