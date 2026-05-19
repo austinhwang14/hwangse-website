@@ -19,9 +19,9 @@ const services = [
 ];
 
 const stats = [
-  { value: "1000+", label: "Projects Supported" },
-  { value: "30+", label: "Years of Experience" },
-  { value: "2015", label: "Founded in California" },
+  { value: "3000+", label: "Projects Supported" },
+  { value: "20+", label: "Years of Experience" },
+  { value: "Since 2016", label: "Serving California" },
   { value: "S.E.", label: "Licensed Structural Engineer" },
 ];
 
@@ -51,6 +51,7 @@ export default async function Home() {
 
           <div className="absolute inset-0 bg-black/75" />
           <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
         </div>
 
         <div className="relative z-10 min-h-[85vh] flex items-center px-6 sm:px-8">
@@ -98,7 +99,10 @@ export default async function Home() {
               <p className="text-3xl sm:text-4xl font-semibold text-[#d45a00] mb-2">
                 {stat.value}
               </p>
-              <p className="text-sm text-gray-400 leading-5">{stat.label}</p>
+
+              <p className="text-sm text-gray-400 leading-5">
+                {stat.label}
+              </p>
             </div>
           ))}
         </div>
@@ -112,7 +116,7 @@ export default async function Home() {
           </h2>
 
           <p className="text-gray-300 leading-8 text-lg">
-            Since 2015, HSE has worked with architects, owners, and contractors
+            Since 2016, HSE has worked with architects, owners, and contractors
             to provide structural solutions that are efficient, economical, and
             compatible with each project’s design goals.
           </p>
@@ -136,6 +140,7 @@ export default async function Home() {
                 className="rounded-2xl border border-white/10 bg-white/5 p-6 hover:bg-white/10 hover:-translate-y-1 transition-all duration-300"
               >
                 <h3 className="text-xl font-medium mb-3">{service}</h3>
+
                 <p className="text-sm text-gray-400 leading-6">
                   Professional structural engineering support tailored to each
                   project’s requirements.

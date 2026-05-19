@@ -43,8 +43,8 @@ export default function ProjectsClient({
 }) {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedProject, setSelectedProject] = useState(
-  projects.find((project) => project.id === initialProjectId) ?? projects[0]
-);
+    projects.find((project) => project.id === initialProjectId) ?? projects[0]
+  );
   const [searchTerm, setSearchTerm] = useState("");
   const [isDetailOpen, setIsDetailOpen] = useState(false);
 
@@ -98,7 +98,11 @@ export default function ProjectsClient({
               className="w-full rounded-xl bg-black/40 border border-white/10 px-4 py-3 text-sm text-white outline-none focus:border-[#d45a00]"
             >
               {categories.map((category) => (
-                <option key={category} value={category} className="bg-[#111111]">
+                <option
+                  key={category}
+                  value={category}
+                  className="bg-[#111111]"
+                >
                   {category}
                 </option>
               ))}
@@ -141,7 +145,9 @@ export default function ProjectsClient({
                   }`}
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <h3 className="font-medium leading-snug">{project.name}</h3>
+                    <h3 className="font-medium leading-snug">
+                      {project.name}
+                    </h3>
 
                     <span className="shrink-0 rounded-full bg-white/10 px-2 py-1 text-[10px] text-gray-300">
                       {project.type}
@@ -227,6 +233,7 @@ export default function ProjectsClient({
                           src={image}
                           alt={displayedProject.name}
                           referrerPolicy="no-referrer"
+                          loading="lazy"
                           className="w-full h-72 object-cover transition duration-500 hover:scale-[1.03]"
                         />
                       </div>
@@ -304,78 +311,88 @@ export default function ProjectsClient({
       </section>
 
       {isDetailOpen && displayedProject && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="relative max-w-5xl w-full max-h-[90vh] overflow-y-auto rounded-3xl bg-[#111111] border border-white/10 p-6 sm:p-8">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+          <div className="relative max-h-[92vh] w-full max-w-6xl overflow-hidden rounded-3xl border border-white/10 bg-[#111111] shadow-2xl">
             <button
               onClick={() => setIsDetailOpen(false)}
-              className="absolute right-5 top-5 text-gray-400 hover:text-white text-2xl"
+              className="absolute right-5 top-5 z-20 rounded-full bg-black/70 px-4 py-2 text-sm text-white backdrop-blur-md hover:bg-black transition"
             >
-              ×
+              Close
             </button>
 
-            <p className="text-xs uppercase tracking-[0.25em] text-[#d45a00] mb-3">
-              Project Details
-            </p>
-
-            <h2 className="text-3xl sm:text-5xl font-semibold mb-6 pr-10">
-              {displayedProject.name}
-            </h2>
-
-            {displayedProject.images.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                {displayedProject.images.map((image) => (
-                  <img
-                    key={image}
-                    src={image}
-                    alt={displayedProject.name}
-                    referrerPolicy="no-referrer"
-                    className="w-full h-80 object-cover rounded-2xl border border-white/10"
-                  />
-                ))}
+            <div className="grid grid-cols-1 lg:grid-cols-2">
+              <div className="max-h-[92vh] overflow-y-auto border-b border-white/10 lg:border-b-0 lg:border-r">
+                {displayedProject.images.length > 0 ? (
+                  <div className="grid gap-2 p-2">
+                    {displayedProject.images.map((image, index) => (
+                      <div
+                        key={index}
+                        className="overflow-hidden rounded-2xl bg-black"
+                      >
+                        <img
+                          src={image}
+                          alt={`${displayedProject.name} image ${index + 1}`}
+                          referrerPolicy="no-referrer"
+                          loading="lazy"
+                          className="w-full object-cover transition duration-700 hover:scale-[1.02]"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex min-h-[320px] items-center justify-center p-8 text-center text-gray-500">
+                    Project images coming soon.
+                  </div>
+                )}
               </div>
-            )}
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-gray-300">
-              <div>
-                <p className="text-xs uppercase tracking-[0.18em] text-gray-500 mb-1">
-                  Type
+              <div className="max-h-[92vh] overflow-y-auto p-8 lg:p-10">
+                <p className="mb-4 text-sm uppercase tracking-[0.25em] text-[#d45a00]">
+                  {displayedProject.type}
                 </p>
-                <p>{displayedProject.type}</p>
+
+                <h2 className="mb-6 text-4xl font-semibold leading-tight">
+                  {displayedProject.name}
+                </h2>
+
+                <div className="mb-8 flex flex-wrap gap-3">
+                  <div className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-gray-300">
+                    {displayedProject.location}
+                  </div>
+
+                  {displayedProject.architect && (
+                    <div className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-gray-300">
+                      {displayedProject.architect}
+                    </div>
+                  )}
+                </div>
+
+                <div className="space-y-10">
+                  {displayedProject.description && (
+                    <div>
+                      <h3 className="mb-4 text-xl font-medium">
+                        Project Description
+                      </h3>
+
+                      <p className="leading-8 text-gray-300">
+                        {displayedProject.description}
+                      </p>
+                    </div>
+                  )}
+
+                  {displayedProject.scope && (
+                    <div>
+                      <h3 className="mb-4 text-xl font-medium">
+                        Scope of Services
+                      </h3>
+
+                      <p className="leading-8 text-gray-300">
+                        {displayedProject.scope}
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
-
-              {displayedProject.architect && (
-                <div>
-                  <p className="text-xs uppercase tracking-[0.18em] text-gray-500 mb-1">
-                    Architect
-                  </p>
-                  <p>{displayedProject.architect}</p>
-                </div>
-              )}
-
-              <div className="sm:col-span-2">
-                <p className="text-xs uppercase tracking-[0.18em] text-gray-500 mb-1">
-                  Location
-                </p>
-                <p>{displayedProject.location}</p>
-              </div>
-
-              {displayedProject.description && (
-                <div className="sm:col-span-2">
-                  <p className="text-xs uppercase tracking-[0.18em] text-gray-500 mb-1">
-                    Description
-                  </p>
-                  <p className="leading-7">{displayedProject.description}</p>
-                </div>
-              )}
-
-              {displayedProject.scope && (
-                <div className="sm:col-span-2">
-                  <p className="text-xs uppercase tracking-[0.18em] text-gray-500 mb-1">
-                    Scope
-                  </p>
-                  <p className="leading-7">{displayedProject.scope}</p>
-                </div>
-              )}
             </div>
           </div>
         </div>
