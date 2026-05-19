@@ -9,12 +9,7 @@ export const metadata: Metadata = {
     "Hwang Structural Engineers provides practical, efficient structural engineering services for residential, commercial, industrial, and specialty projects throughout Southern California.",
 };
 
-const heroImages = [
-  "/hero-1.jpg",
-  "/logo.jpg",
-  "/hero-3.jpg",
-  "/logo.jpg",
-];
+const heroImages = ["/hero-1.jpg", "/logo.jpg", "/hero-3.jpg", "/logo.jpg"];
 
 const services = [
   "Structural Design",
@@ -54,7 +49,8 @@ export default async function Home() {
             />
           ))}
 
-          <div className="absolute inset-0 bg-black/70" />
+          <div className="absolute inset-0 bg-black/75" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent" />
         </div>
 
         <div className="relative z-10 min-h-[85vh] flex items-center px-6 sm:px-8">
@@ -76,14 +72,14 @@ export default async function Home() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/projects"
-                className="rounded-full bg-[#d45a00] px-7 py-3 text-sm font-medium hover:bg-[#f06a00] transition text-center"
+                className="rounded-full bg-[#d45a00] px-7 py-3 text-sm font-medium hover:bg-[#f06a00] transition-all duration-300 text-center hover:scale-105"
               >
                 View Projects
               </Link>
 
               <Link
                 href="/contact"
-                className="rounded-full border border-white/20 px-7 py-3 text-sm font-medium hover:bg-white/10 transition text-center"
+                className="rounded-full border border-white/20 px-7 py-3 text-sm font-medium hover:bg-white/10 transition-all duration-300 text-center hover:scale-105"
               >
                 Contact HSE
               </Link>
@@ -97,15 +93,12 @@ export default async function Home() {
           {stats.map((stat) => (
             <div
               key={stat.label}
-              className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 hover:bg-white/[0.08] hover:-translate-y-1 transition duration-300"
+              className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 hover:bg-white/[0.08] hover:-translate-y-1 transition-all duration-300"
             >
               <p className="text-3xl sm:text-4xl font-semibold text-[#d45a00] mb-2">
                 {stat.value}
               </p>
-
-              <p className="text-sm text-gray-400 leading-5">
-                {stat.label}
-              </p>
+              <p className="text-sm text-gray-400 leading-5">{stat.label}</p>
             </div>
           ))}
         </div>
@@ -140,10 +133,9 @@ export default async function Home() {
             {services.map((service) => (
               <div
                 key={service}
-                className="rounded-2xl border border-white/10 bg-white/5 p-6 hover:bg-white/10 hover:-translate-y-1 transition duration-300"
+                className="rounded-2xl border border-white/10 bg-white/5 p-6 hover:bg-white/10 hover:-translate-y-1 transition-all duration-300"
               >
                 <h3 className="text-xl font-medium mb-3">{service}</h3>
-
                 <p className="text-sm text-gray-400 leading-6">
                   Professional structural engineering support tailored to each
                   project’s requirements.
@@ -155,15 +147,15 @@ export default async function Home() {
       </section>
 
       {featuredProjects.length > 0 && (
-        <section className="px-6 sm:px-8 py-20">
+        <section className="px-6 sm:px-8 py-24">
           <div className="max-w-7xl mx-auto">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
               <div>
                 <p className="text-sm uppercase tracking-[0.3em] text-gray-500 mb-4">
                   Featured Work
                 </p>
 
-                <h2 className="text-4xl font-semibold">
+                <h2 className="text-4xl md:text-5xl font-semibold">
                   Selected Projects
                 </h2>
               </div>
@@ -176,20 +168,21 @@ export default async function Home() {
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              {featuredProjects.map((project) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+              {featuredProjects.map((project, index) => (
                 <Link
                   key={project.id}
                   href={`/projects?project=${project.id}`}
-                  className="group rounded-2xl overflow-hidden border border-white/10 bg-white/5 hover:bg-white/10 hover:-translate-y-1 transition duration-300"
+                  className="group rounded-3xl overflow-hidden border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] hover:-translate-y-2 transition-all duration-300"
                 >
-                  <div className="relative h-56 overflow-hidden bg-black">
+                  <div className="relative h-64 overflow-hidden bg-black">
                     {project.mainImage ? (
                       <img
                         src={project.mainImage}
                         alt={project.name}
                         referrerPolicy="no-referrer"
-                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                        loading="lazy"
+                        className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
                       />
                     ) : (
                       <div className="flex h-full items-center justify-center bg-gradient-to-br from-[#d45a00]/40 to-black">
@@ -198,6 +191,12 @@ export default async function Home() {
                         </p>
                       </div>
                     )}
+
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+
+                    <div className="absolute left-4 top-4 rounded-full bg-black/60 px-3 py-1 text-xs text-white backdrop-blur-md">
+                      Selected {index + 1}
+                    </div>
                   </div>
 
                   <div className="p-6">
@@ -205,12 +204,16 @@ export default async function Home() {
                       {project.type}
                     </p>
 
-                    <h3 className="text-xl font-semibold mb-3 leading-snug">
+                    <h3 className="text-xl font-semibold mb-3 leading-snug group-hover:text-[#f06a00] transition">
                       {project.name}
                     </h3>
 
-                    <p className="text-sm text-gray-400">
+                    <p className="text-sm text-gray-400 leading-6">
                       {project.location}
+                    </p>
+
+                    <p className="mt-5 text-sm text-white/70 group-hover:text-white transition">
+                      View project details →
                     </p>
                   </div>
                 </Link>
