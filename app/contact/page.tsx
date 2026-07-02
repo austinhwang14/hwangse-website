@@ -25,7 +25,7 @@ export default function Contact() {
               className="block bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:-translate-y-1 transition-all duration-300"
             >
               <h2 className="text-xl mb-2">Phone</h2>
-              <p className="text-gray-300">213-268-0935</p>
+              <p className="text-gray-300">213-267-5644</p>
             </a>
 
             <a
